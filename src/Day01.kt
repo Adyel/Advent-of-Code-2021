@@ -1,17 +1,39 @@
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+
+    val file = readInput("Input01").map { it.toInt() }
+
+    val partOneSolution = partOne(file)
+    println("Part one: $partOneSolution")
+
+    val partTwoSolution = partTwo(file)
+    println("Part two: $partTwoSolution")
+}
+
+fun partTwo(file: List<Int>): Int {
+    var counter = 0
+    var previousWindow = file[0] + file[1] + file[2]
+
+    for (i in 1..file.size - 3) {
+        val currentWindow = file[i] + file[i + 1] + file[i + 2]
+        if (currentWindow > previousWindow) {
+            counter++
+        }
+        previousWindow = currentWindow
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    return counter
+}
+
+fun partOne(file: List<Int>): Int {
+    var counter = 0
+    var previousReading = Int.MAX_VALUE
+
+    for (line in file) {
+        if (previousReading < line) {
+            counter++
+        }
+        previousReading = line
     }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    return counter
 }
